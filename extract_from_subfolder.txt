@@ -1,0 +1,16 @@
+# Powershell script to pull all .jpg from subfolders in a given directory
+
+
+$sourceDirectory = "C:\Users\Good Machine\Desktop\Good Machine\Photogrammetry\Photo\FLIR_mod"
+$destinationDirectory = "C:\Users\Good Machine\Desktop\Good Machine\Photogrammetry\Photo\FLIR_copy"
+
+# Create the destination directory if it doesn't exist
+if (-not (Test-Path -Path $destinationDirectory)) {
+    New-Item -ItemType Directory -Path $destinationDirectory | Out-Null
+}
+
+# Get all .jpg files in the source directory and its subdirectories
+Get-ChildItem -Path $sourceDirectory -Filter *.jpg -File -Recurse | ForEach-Object {
+    # Copy each file to the destination directory
+    Copy-Item -Path $_.FullName -Destination $destinationDirectory
+}

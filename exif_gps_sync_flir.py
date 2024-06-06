@@ -56,7 +56,14 @@ def write_exif_gps(file_path, microloon_data, closest_timestamp_index):
     with open(file_path, 'rb') as image_file:
         image = Image(image_file)
         altitude, latitude, longitude = microloon_data[closest_timestamp_index][1:]
-
+        if latitude >= 0:
+            image.gps_latitude_ref = 'N'
+        else:
+            image.gps_latitude_ref = 'S'
+        if longitude >= 0:
+            image.gps_longitude_ref = 'E'
+        else:
+            image.gps_latitude_ref = 'W'
         # Convert decimal to dms
         latitude = decimal_to_dms(abs(latitude))
         longitude = decimal_to_dms(abs(longitude))
